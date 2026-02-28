@@ -19,8 +19,15 @@ const saveAirportData = async (airportData :any)=>{
        console.error(err)
     }
 }
- const updateAirportData = async ()=>{
-  
+ const updateAirportData = async (tobeUpdatedairportData: any)=>{
+   try{
+      const response = await axios.patch(
+         `${baseUrl}/${tobeUpdatedairportData.airportId}`,
+         tobeUpdatedairportData)
+      return response.status;
+   }catch(err){
+      console.error(err)
+   }
 }
 
  const deleteAirportData = async ()=>{

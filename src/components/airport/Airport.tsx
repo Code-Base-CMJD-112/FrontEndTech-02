@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { getAirportData, saveAirportData } from "../service/AirportService";
+import { getAirportData, saveAirportData, updateAirportData } from "../service/AirportService";
 
 export default function Airport() {
   interface AirportModel {
@@ -28,6 +28,7 @@ export default function Airport() {
   ]
   const [airportList,setAirportList] = useState<AirportModel[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [ isUpdate, setIsUpdate] = useState(false)
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
      const {name,value} = e.target;
@@ -38,12 +39,31 @@ export default function Airport() {
 
   const handleOnSubmit = async (e: React.SyntheticEvent)=>{
       e.preventDefault()
-      const responseStatus = await saveAirportData(airport);
+      if(isUpdate){
+       const status =  await updateAirportData(airport)
+       if(status !== 204){
+         alert ("Udpate Failed")
+         return;
+       }
+       alert("Update Successfully")
+       fetchAirportData()
+       setAirport({
+        airportId: "",
+        airportCode: "",
+        airportName: "",
+        city: "",
+        country: ""
+       })
+
+      }else{
+        //save
+        const responseStatus = await saveAirportData(airport);
       if(responseStatus !== 201){
         alert("Saved Data Failed")
         return
       }
       alert("Saved Data Succesfully");
+      }        
   }
 
   //load airport data when component mount
@@ -59,11 +79,15 @@ export default function Airport() {
   const handleOnDelete = ()=>{
 
   }
-  const handleOnUpdate = ()=>{
-
+  const handleOnUpdate = (airportData : AirportModel)=>{
+     console.log(airportData)
+     setAirport(airportData)
+     setIsModalOpen(false)
   }
   const handleTbleView = () =>{
     setIsModalOpen(true)
+    setIsUpdate(true)
+   
   }
 
   return (
@@ -154,7 +178,7 @@ export default function Airport() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Save
+                {isUpdate ? "Update" : "Save"}
               </button>
             </div>
             <div>
@@ -213,6 +237,7 @@ export default function Airport() {
                       <td className="px-4 py-2 border">
                         <button
                           className="bg-green-600 text-white px-3 py-1 text-sm rounded mr-2"
+                          onClick={()=>handleOnUpdate(ap)}
                         
                         >
                           Edit
