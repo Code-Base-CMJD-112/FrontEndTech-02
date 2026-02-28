@@ -30,8 +30,15 @@ const saveAirportData = async (airportData :any)=>{
    }
 }
 
- const deleteAirportData = async ()=>{
-  
+ const deleteAirportData = async (airportId :any)=>{
+   try{
+      const response = await axios.delete(
+         `${baseUrl}/${airportId}`
+      )
+      return response.status
+   }catch(err){
+      console.error(err)
+   }
 }
 
 export { saveAirportData, getAirportData, updateAirportData,deleteAirportData}

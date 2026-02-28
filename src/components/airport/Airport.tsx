@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { getAirportData, saveAirportData, updateAirportData } from "../service/AirportService";
+import { deleteAirportData, getAirportData, saveAirportData, updateAirportData } from "../service/AirportService";
 
 export default function Airport() {
   interface AirportModel {
@@ -76,8 +76,16 @@ export default function Airport() {
       setAirportList(data)
   } 
 
-  const handleOnDelete = ()=>{
-
+  const handleOnDelete = async (airportId: string)=>{
+    const confirmation = window.confirm("Are you sure to delete")
+    if(!confirmation) return
+    const status = await deleteAirportData(airportId)
+    if(status === 204){
+      alert("Delete Successfully")
+      fetchAirportData()
+    }else{
+      alert("Delete Failed")
+    }
   }
   const handleOnUpdate = (airportData : AirportModel)=>{
      console.log(airportData)
@@ -244,6 +252,7 @@ export default function Airport() {
                         </button>
                         <button
                           className="bg-red-600 text-white px-3 py-1 text-sm rounded"
+                          onClick={()=>handleOnDelete(ap.airportId)}
                          
                         >
                           Delete
