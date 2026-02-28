@@ -12,7 +12,12 @@ const saveAirportData = async (airportData :any)=>{
 }
 
  const getAirportData = async ()=>{
-  
+    try{
+       const response = await axios.get(baseUrl)
+       return response.data
+    }catch(err){
+       console.error(err)
+    }
 }
  const updateAirportData = async ()=>{
   
