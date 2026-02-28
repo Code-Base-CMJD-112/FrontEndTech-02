@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { saveAirportData } from "../service/AirportService";
 
 export default function Airport() {
   interface AirportModel {
@@ -26,9 +27,14 @@ export default function Airport() {
 
   //Dave save
 
-  const handleOnSubmit = (e: React.SyntheticEvent)=>{
+  const handleOnSubmit = async (e: React.SyntheticEvent)=>{
       e.preventDefault()
-      console.log(airport)
+      const responseStatus = await saveAirportData(airport);
+      if(responseStatus !== 201){
+        alert("Saved Data Failed")
+        return
+      }
+      alert("Saved Data Succesfully");
   }
 
   return (
