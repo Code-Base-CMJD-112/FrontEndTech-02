@@ -54,7 +54,9 @@ export default function Airport() {
                   id="airportCode"
                   name="airportCode"
                   type="text"
+                  value={airport.airportCode}
                   required
+                  onChange={handleOnChange}
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
@@ -70,6 +72,8 @@ export default function Airport() {
                   name="airportName"
                   type="text"
                   required
+                  value={airport.airportName}
+                  onChange={handleOnChange}
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
@@ -85,6 +89,8 @@ export default function Airport() {
                   name="city"
                   type="text"
                   required
+                  value={airport.city}
+                  onChange={handleOnChange}
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
@@ -100,6 +106,8 @@ export default function Airport() {
                   name="country"
                   type="text"
                   required
+                  value={airport.country}
+                  onChange={handleOnChange}
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
