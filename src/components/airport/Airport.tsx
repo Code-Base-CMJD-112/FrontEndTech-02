@@ -1,14 +1,38 @@
+import { ChangeEvent, useState } from "react";
+
 export default function Airport() {
+  interface AirportModel {
+    airportId:string,
+    airportCode:string,
+    airportName:string,
+    city:string,
+    country:string
+  }
+  const [airport,setAirport] = useState<AirportModel>(
+    {
+      airportId: "",
+      airportCode: "",
+      airportName: "",
+      city: "",
+      country: ""
+    }
+  );
+  const [airportList,setAirportList] = useState<AirportModel[]>();
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
+     const {name,value} = e.target;
+     setAirport((prev) => ({...prev, [name]: value}));
+  };
+
+  //Dave save
+
+  const handleOnSubmit = (e: React.SyntheticEvent)=>{
+      e.preventDefault()
+      console.log(airport)
+  }
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-900">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -20,66 +44,62 @@ export default function Airport() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form className="space-y-6" onSubmit={handleOnSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-black-100">
+              <label htmlFor="airportCode" className="block text-sm/6 font-medium text-black-100">
                 Airport Code
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="airportCode"
+                  name="airportCode"
+                  type="text"
                   required
-                  autoComplete="email"
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-black-100">
+              <label htmlFor="airportName" className="block text-sm/6 font-medium text-black-100">
                 Airport Name
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="airportName"
+                  name="airportName"
+                  type="text"
                   required
-                  autoComplete="email"
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-black-100">
+              <label htmlFor="city" className="block text-sm/6 font-medium text-black-100">
                 City
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="city"
+                  name="city"
+                  type="text"
                   required
-                  autoComplete="email"
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-black-100">
+              <label htmlFor="country" className="block text-sm/6 font-medium text-black-100">
                 Country
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="country"
+                  name="country"
+                  type="text"
                   required
-                  autoComplete="email"
                   className="w-full border rounded-md px-3 py-2"
                 />
               </div>
@@ -96,7 +116,7 @@ export default function Airport() {
             </div>
             <div>
               <button
-                type="submit"
+                type="reset"
                 className="flex w-full justify-center rounded-md bg-red-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
                 Reset
