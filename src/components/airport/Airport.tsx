@@ -32,9 +32,9 @@ export default function Airport() {
   const [ isUpdate, setIsUpdate] = useState(false)
   //Alert state
   const [ alertView, setAlertView] = useState<{
-  type: "success"| "failed";
-  message: string
-  } | null>(null)
+          type: "success"| "failed";
+          message: string
+          } | null>(null)
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
      const {name,value} = e.target;
@@ -86,8 +86,12 @@ export default function Airport() {
 
   //load airport data when component mount
    useEffect(()=>{
+     if(alertView){
+      const alertTimer = setTimeout(()=> setAlertView(null), 3000)
+      return () => clearTimeout(alertTimer)
+     }    
     fetchAirportData()
-   },[])
+   },[alertView])
 
   const fetchAirportData = async () =>{
       const data  = await getAirportData()
