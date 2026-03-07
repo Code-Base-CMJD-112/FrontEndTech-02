@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { deleteAirportData, getAirportData, saveAirportData, updateAirportData } from "../service/AirportService";
+import { Alert } from "../util/Alert";
 
 export default function Airport() {
   interface AirportModel {
@@ -29,6 +30,11 @@ export default function Airport() {
   const [airportList,setAirportList] = useState<AirportModel[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [ isUpdate, setIsUpdate] = useState(false)
+  //Alert state
+  const [ alertView, setAlertView] = useState<{
+  type: "success"| "failed";
+  message: string
+  } | null>(null)
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
      const {name,value} = e.target;
@@ -42,10 +48,16 @@ export default function Airport() {
       if(isUpdate){
        const status =  await updateAirportData(airport)
        if(status !== 204){
-         alert ("Udpate Failed")
+         setAlertView({
+           type:"failed",
+           message: "Update Airport Data Failed"
+         })
          return;
        }
-       alert("Update Successfully")
+       setAlertView({
+        type:"success",
+        message: "Update Airport Data Successfully"
+      })
        fetchAirportData()
        setAirport({
         airportId: "",
@@ -59,10 +71,16 @@ export default function Airport() {
         //save
         const responseStatus = await saveAirportData(airport);
       if(responseStatus !== 201){
-        alert("Saved Data Failed")
+        setAlertView({
+          type:"failed",
+          message: "Save Airport Data Failed"
+        })
         return
       }
-      alert("Saved Data Succesfully");
+      setAlertView({
+        type:"success",
+        message: "Save Airport Data Sucessfully"
+      })
       }        
   }
 
@@ -81,10 +99,16 @@ export default function Airport() {
     if(!confirmation) return
     const status = await deleteAirportData(airportId)
     if(status === 204){
-      alert("Delete Successfully")
+      setAlertView({
+        type:"success",
+        message: "Delete Airport Data Sucessfully"
+      })
       fetchAirportData()
     }else{
-      alert("Delete Failed")
+      setAlertView({
+        type:"failed",
+        message: "Delete Airport Data Failed"
+      })
     }
   }
   const handleOnUpdate = (airportData : AirportModel)=>{
@@ -108,6 +132,16 @@ export default function Airport() {
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-black">Airpot Details</h2>
+          <div>
+          {alertView && (
+              <Alert
+              type={alertView.type}
+              message={alertView.message}
+              onClose={() => setAlertView(null)}
+              
+              />
+            )}
+          </div>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
