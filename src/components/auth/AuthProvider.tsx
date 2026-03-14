@@ -38,4 +38,5 @@ export const useAuth = ()=>{
     if(!context){
         throw new Error ("Auth Error")
     }
+    return context;
 }

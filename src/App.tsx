@@ -5,18 +5,21 @@ import { Flights } from "./components/flights/Flights";
 import { Login } from "./components/auth/Login";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { SignUp } from "./components/auth/SignUp";
+import { AuthProvider } from "./components/auth/AuthProvider";
 
 function App() {
   return (
     <>
-      <Nav />
+      <AuthProvider>
+        <Nav />
 
-      <Routes>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/airports" element={<Airport />} />
-        <Route path="/flights" element={<Flights />} />
-      </Routes>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/airports" element={<Airport />} />
+          <Route path="/flights" element={<Flights />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }

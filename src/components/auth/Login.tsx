@@ -1,5 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { appLogin } from "../service/AuthService";
+import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 interface LoginModel {
     email:string,
@@ -7,25 +9,28 @@ interface LoginModel {
 }
 export const Login = () => {
 
-  const [login, setLogin] = useState<LoginModel>(
+  const [signIn, setSignin] = useState<LoginModel>(
       {
         email:"",
         password:"",
       }
   );
+  const { login } = useAuth();
+  const navigate = useNavigate();
   
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
      const { name, value} = e.target;
-     setLogin((prev)=> ({...prev, [name]: value}))
+     setSignin((prev)=> ({...prev, [name]: value}))
 
   }
 
   const handleOnSubmit = async (e: React.SyntheticEvent)=>{
     e.preventDefault()
     // service call
-    const loginToken =  await appLogin(login)
+    const loginToken =  await appLogin(signIn)
     // token handle
-
+    login(loginToken)
+    navigate("/airports")
   }  
   return (
     <>
@@ -65,7 +70,7 @@ export const Login = () => {
                     id="email"
                     name="email"
                     type="email"
-                    value={login.email}
+                    value={signIn.email}
                     required
                     onChange={handleOnChange}
                     className="w-full border rounded-md px-3 py-2"
@@ -86,7 +91,7 @@ export const Login = () => {
                     name="password"
                     type="password"
                     required
-                    value={login.password}
+                    value={signIn.password}
                     onChange={handleOnChange}
                     className="w-full border rounded-md px-3 py-2"
                   />
