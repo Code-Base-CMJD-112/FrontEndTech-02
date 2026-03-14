@@ -12,22 +12,39 @@ import {
   BellIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthProvider";
 
-const navigation = [
+const openNav= [
   { name: "Login", to: "/login" },
   { name: "Signup", to: "/signup" },
+
+];
+
+const authNav = [
   { name: "Airports", to: "/airports" },
   { name: "Bookings", to: "/bookings" },
   { name: "Passengers", to: "/passengers" },
   { name: "Flights", to: "/flights" },
-];
+]
+
+
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Nav() {
+  const { isAuthenticated, logout} = useAuth();
+  const navigate = useNavigate()
+
+  const handleOnLogout = ()=>{
+    logout()
+    navigate("/login")
+  }
+
+  const navigation = isAuthenticated ? authNav : openNav;
+
   return (
     <Disclosure
       as="nav"
@@ -61,6 +78,17 @@ export default function Nav() {
                     {item.name}
                   </NavLink>
                 ))}
+                {/* Logout button */}
+                {
+                  isAuthenticated && (
+                    <button className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-red-500 hover:text-white"
+                    onClick={handleOnLogout}
+                    >
+  
+                      Logout
+                    </button>
+                  )
+                }
               </div>
             </div>
           </div>
