@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { appLogin, appSignup } from "../service/AuthService";
+import { appSignup } from "../service/AuthService";
 
 interface SignUpModel {
     userId:string,
