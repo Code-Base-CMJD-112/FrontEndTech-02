@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface LoginModel {
     email:string,
@@ -13,12 +13,16 @@ export const Login = () => {
       }
   );
   
-  const handleOnChange = () =>{
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>{
+     const { name, value} = e.target;
+     setLogin((prev)=> ({...prev, [name]: value}))
 
   }
 
-  const handleOnSubmit = ()=>{
-
+  const handleOnSubmit = async (e: React.SyntheticEvent)=>{
+    e.preventDefault()
+    // service call
+    
   }  
   return (
     <>
