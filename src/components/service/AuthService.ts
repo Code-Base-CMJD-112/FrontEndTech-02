@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const baseUrl = "http://localhost:8081/airticket/api/v1/auth"
+// const baseUrl = "http://localhost:8081/airticket/api/v1/auth"
+const baseUrl = "http://localhost:3500/airticket/api/v1/auth"
 
 export const appLogin = async (login: any) =>{
   try{
